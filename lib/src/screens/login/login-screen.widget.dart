@@ -1,9 +1,12 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:products_app/src/core/utils/acp-decorations.dart';
 
 class LoginBackgroundWidget extends StatelessWidget {
-  const LoginBackgroundWidget({Key? key}) : super(key: key);
+  final Widget child;
+  const LoginBackgroundWidget({Key? key, required this.child})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,9 +14,29 @@ class LoginBackgroundWidget extends StatelessWidget {
       width: double.infinity,
       height: double.infinity,
       child: Stack(
-        children: [_PurpleBox()],
+        children: [_PurpleBox(), _HeaderIcon(), this.child],
       ),
     );
+  }
+}
+
+class _HeaderIcon extends StatelessWidget {
+  const _HeaderIcon({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Container(
+      width: double.infinity,
+      margin: EdgeInsets.only(top: 60),
+      child: Icon(
+        Icons.person_pin,
+        color: Colors.white,
+        size: 100,
+      ),
+    ));
   }
 }
 
@@ -31,6 +54,7 @@ class __PurpleBoxState extends State<_PurpleBox> {
   double? _bottom;
 
   bool canAnimate = true;
+  final random = Random();
 
   @override
   void initState() {
@@ -43,7 +67,6 @@ class __PurpleBoxState extends State<_PurpleBox> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final random = Random();
 
     return Container(
       width: double.infinity,
@@ -59,7 +82,7 @@ class __PurpleBoxState extends State<_PurpleBox> {
             child: _Bubble(),
             top: _top == null ? 90 : _top! * random.nextDouble(),
             left: _left == null ? 30 : _left! * random.nextDouble(),
-            duration: Duration(seconds: 4),
+            duration: Duration(seconds: 6),
             onEnd: () {
               this.randomPosition(1.5, 2, 1, 1);
               setState(() {});
@@ -69,7 +92,7 @@ class __PurpleBoxState extends State<_PurpleBox> {
             child: _Bubble(),
             top: _top == null ? -40 : _top! * random.nextDouble(),
             left: _left == null ? -30 : _left! * random.nextDouble(),
-            duration: Duration(seconds: 4),
+            duration: Duration(seconds: 6),
             onEnd: () {
               this.randomPosition(-1, 0.8, 1, 1);
               setState(() {});
@@ -79,7 +102,7 @@ class __PurpleBoxState extends State<_PurpleBox> {
             child: _Bubble(),
             top: _top == null ? -50 : _top! * random.nextDouble(),
             right: _right == null ? -20 : _right! * random.nextDouble(),
-            duration: Duration(seconds: 4),
+            duration: Duration(seconds: 6),
             onEnd: () {
               this.randomPosition(1.2, 1, -0.3, 1);
               setState(() {});
@@ -89,7 +112,7 @@ class __PurpleBoxState extends State<_PurpleBox> {
             child: _Bubble(),
             bottom: _bottom == null ? -50 : _bottom! * random.nextDouble(),
             left: _left == null ? 10 : _left! * random.nextDouble(),
-            duration: Duration(seconds: 4),
+            duration: Duration(seconds: 6),
             onEnd: () {
               this.randomPosition(1, 0.3, 1, 1.8);
               setState(() {});
@@ -99,7 +122,7 @@ class __PurpleBoxState extends State<_PurpleBox> {
             child: _Bubble(),
             bottom: _bottom == null ? 120 : _bottom! * random.nextDouble(),
             right: _right == null ? 30 : _right! * random.nextDouble(),
-            duration: Duration(seconds: 4),
+            duration: Duration(seconds: 6),
             onEnd: () {
               this.randomPosition(1, 1, 3, 2.5);
               setState(() {});
@@ -109,7 +132,7 @@ class __PurpleBoxState extends State<_PurpleBox> {
             child: _Bubble(),
             top: _top == null ? 60 : _top! * random.nextDouble(),
             right: _right == null ? 25 : _right! * random.nextDouble(),
-            duration: Duration(seconds: 4),
+            duration: Duration(seconds: 6),
             onEnd: () {
               this.randomPosition(1.3, 1, 1.2, 1);
               setState(() {});
@@ -119,7 +142,7 @@ class __PurpleBoxState extends State<_PurpleBox> {
             child: _Bubble(),
             bottom: _bottom == null ? 10 : _bottom! * random.nextDouble(),
             right: _right == null ? 80 : _right! * random.nextDouble(),
-            duration: Duration(seconds: 4),
+            duration: Duration(seconds: 6),
             onEnd: () {
               this.randomPosition(1, 1, 1.4, 1.5);
               setState(() {});
@@ -129,7 +152,7 @@ class __PurpleBoxState extends State<_PurpleBox> {
             child: _Bubble(),
             top: _top == null ? 120 : _top! * random.nextDouble(),
             left: _left == null ? 30 : _left! * random.nextDouble(),
-            duration: Duration(seconds: 4),
+            duration: Duration(seconds: 6),
             onEnd: () {
               this.randomPosition(2, 2.3, 1, 1);
               setState(() {});
@@ -139,7 +162,7 @@ class __PurpleBoxState extends State<_PurpleBox> {
             child: _Bubble(),
             bottom: _bottom == null ? 70 : _bottom! * random.nextDouble(),
             right: _right == null ? 50 : _right! * random.nextDouble(),
-            duration: Duration(seconds: 4),
+            duration: Duration(seconds: 6),
             onEnd: () {
               this.randomPosition(1, 1, 2, 2.5);
               setState(() {});
@@ -153,10 +176,10 @@ class __PurpleBoxState extends State<_PurpleBox> {
   randomPosition(double t, double l, double r, double b) {
     final random = Random();
 
-    this._top = random.nextInt(400).toDouble() * t;
-    this._left = random.nextInt(400).toDouble() * l;
-    this._right = random.nextInt(400).toDouble() * r;
-    this._bottom = random.nextInt(400).toDouble() * b;
+    this._top = random.nextInt(300).toDouble() * t;
+    this._left = random.nextInt(300).toDouble() * l;
+    this._right = random.nextInt(300).toDouble() * r;
+    this._bottom = random.nextInt(300).toDouble() * b;
   }
 
   Future executeInstruction() {
@@ -176,6 +199,62 @@ class _Bubble extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(100),
           color: Color.fromRGBO(255, 255, 255, 0.05)),
+    );
+  }
+}
+
+class LoginForm extends StatelessWidget {
+  const LoginForm({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Form(
+        child: Column(
+          children: [
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 35),
+              child: TextFormField(
+                autocorrect: false,
+                keyboardType: TextInputType.emailAddress,
+                decoration: ACPDecorations.acpInputDecorationMethod(
+                    hintText: 'john.doe@gmail.com',
+                    labelText: 'Correo electronico',
+                    prefixIcon: Icons.alternate_email_sharp),
+              ),
+            ),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 35),
+              child: TextFormField(
+                autocorrect: false,
+                obscureText: true,
+                keyboardType: TextInputType.visiblePassword,
+                decoration: ACPDecorations.acpInputDecorationMethod(
+                    hintText: '******',
+                    labelText: 'Contraseña ',
+                    prefixIcon: Icons.lock_outline),
+              ),
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            MaterialButton(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+              disabledColor: Colors.grey,
+              elevation: 0,
+              color: Colors.indigo,
+              child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 80, vertical: 15),
+                  child: Text(
+                    'Aceptar',
+                    style: TextStyle(color: Colors.white),
+                  )),
+              onPressed: () {},
+            )
+          ],
+        ),
+      ),
     );
   }
 }
