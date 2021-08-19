@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:products_app/src/core/providers/login-form-provider.dart';
 import 'package:products_app/src/core/widgets/acp-widgets.dart';
 import 'package:products_app/src/screens/login/login-screen.widget.dart';
+import 'package:provider/provider.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -28,7 +30,10 @@ class LoginScreen extends StatelessWidget {
                 SizedBox(
                   height: 30,
                 ),
-                LoginForm()
+                ChangeNotifierProvider(
+                  create: (_) => LoginFOrmProvider(),
+                  child: LoginForm(),
+                )
               ],
             )),
             SizedBox(
