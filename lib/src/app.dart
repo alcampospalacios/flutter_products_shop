@@ -11,7 +11,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Products',
-        theme: ThemeData.light(),
+        theme: ThemeData.light()
+            .copyWith(scaffoldBackgroundColor: Colors.grey[300]),
         initialRoute: 'login',
         routes: getApplicationRoutes());
   }
