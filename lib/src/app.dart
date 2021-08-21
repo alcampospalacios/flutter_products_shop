@@ -11,9 +11,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Products',
-        theme: ThemeData.light()
-            .copyWith(scaffoldBackgroundColor: Colors.grey[300]),
-        initialRoute: 'login',
+        theme: ThemeData.light().copyWith(
+            scaffoldBackgroundColor: Colors.grey[300],
+            appBarTheme: AppBarTheme(color: Colors.indigo),
+            floatingActionButtonTheme:
+                FloatingActionButtonThemeData(backgroundColor: Colors.indigo)),
+        initialRoute: 'home',
         routes: getApplicationRoutes());
   }
 }
