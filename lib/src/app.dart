@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Products',
         theme: ThemeData.light().copyWith(
+            primaryColor: Colors.indigo,
             scaffoldBackgroundColor: Colors.grey[300],
             appBarTheme: AppBarTheme(color: Colors.indigo),
             floatingActionButtonTheme:
