@@ -8,7 +8,7 @@ class ACPProductCardWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 30),
       child: Container(
-        margin: EdgeInsets.only(top: 30, bottom: 50),
+        margin: EdgeInsets.only(top: 30, bottom: 10),
         width: double.infinity,
         height: 400,
         decoration: BoxDecoration(
