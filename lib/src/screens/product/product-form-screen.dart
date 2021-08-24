@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:products_app/src/core/utils/acp-decorations.dart';
 import 'package:products_app/src/screens/product/product-form-widget.dart';
 
 class ProductFormScreen extends StatelessWidget {
@@ -37,7 +38,7 @@ class ProductFormScreen extends StatelessWidget {
                     onPressed: () {},
                   )),
               Positioned(
-                  top: 300,
+                  top: 320,
                   left: 0,
                   child: ClipRRect(
                     borderRadius: BorderRadius.only(
@@ -46,13 +47,21 @@ class ProductFormScreen extends StatelessWidget {
                     child: Container(
                       color: Colors.white,
                       width: _screenSize.width,
-                      height: 200,
+                      height: 100,
                     ),
                   ))
             ],
           ),
-          _ProductFormReactive()
+          _ProductFormReactive(),
+          SizedBox(
+            height: 100,
+          )
         ]),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.save_alt_outlined),
+        onPressed: () {},
       ),
     );
   }
@@ -66,9 +75,45 @@ class _ProductFormReactive extends StatelessWidget {
     final _screenSize = MediaQuery.of(context).size;
 
     return Container(
-      color: Colors.white,
       width: _screenSize.width,
-      height: 400,
+      padding: EdgeInsets.symmetric(horizontal: 80),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            bottomLeft: Radius.circular(25), bottomRight: Radius.circular(25)),
+      ),
+      child: Form(
+          child: Column(
+        children: [
+          SizedBox(
+            height: 10,
+          ),
+          TextFormField(
+            decoration: ACPDecorations.acpInputDecorationMethod(
+                hintText: 'Nombre del producto', labelText: 'Nombre:'),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          TextFormField(
+            keyboardType: TextInputType.number,
+            decoration: ACPDecorations.acpInputDecorationMethod(
+                hintText: '\$0.0', labelText: 'Precio:'),
+          ),
+          SizedBox(
+            height: 30,
+          ),
+          SwitchListTile(
+              contentPadding: EdgeInsets.all(0),
+              title: Text('Disponible'),
+              activeColor: Theme.of(context).accentColor,
+              value: true,
+              onChanged: (value) {}),
+          SizedBox(
+            height: 30,
+          ),
+        ],
+      )),
     );
   }
 }
