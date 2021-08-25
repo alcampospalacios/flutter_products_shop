@@ -21,7 +21,9 @@ class ProductFormScreen extends StatelessWidget {
       create: (_) =>
           ProductFormProvider(productProvider.selectedProduct.copy()),
       child: _ProductFormScreenBody(
-          selectedPro: selectedPro, screenSize: _screenSize),
+        screenSize: _screenSize,
+        productProvider: productProvider,
+      ),
     );
   }
 }
@@ -29,16 +31,18 @@ class ProductFormScreen extends StatelessWidget {
 class _ProductFormScreenBody extends StatelessWidget {
   const _ProductFormScreenBody({
     Key? key,
-    required this.selectedPro,
     required Size screenSize,
+    required this.productProvider,
   })  : _screenSize = screenSize,
         super(key: key);
 
-  final Product selectedPro;
+  final ProductsProvider productProvider;
   final Size _screenSize;
 
   @override
   Widget build(BuildContext context) {
+    final productForm = Provider.of<ProductFormProvider>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
         // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
@@ -46,7 +50,7 @@ class _ProductFormScreenBody extends StatelessWidget {
           Stack(
             children: [
               ProductFormImageWidget(
-                product: selectedPro,
+                product: productProvider.selectedProduct,
               ),
               Positioned(
                   top: 50,
@@ -94,7 +98,11 @@ class _ProductFormScreenBody extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.save_alt_outlined),
-        onPressed: () {},
+        onPressed: () async {
+          if (!productForm.isValidForm()) return;
+
+          await productProvider.createOrEdit(productForm.product);
+        },
       ),
     );
   }
@@ -118,56 +126,59 @@ class _ProductFormReactive extends StatelessWidget {
             bottomLeft: Radius.circular(25), bottomRight: Radius.circular(25)),
       ),
       child: Form(
+          key: productFormProvider.formKey,
           child: Column(
-        children: [
-          SizedBox(
-            height: 10,
-          ),
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            initialValue: prodcutF.name,
-            onChanged: (value) => prodcutF.name = value,
-            validator: (value) {
-              if (value == null || value.length < 1) return 'Campo obligatorio';
-            },
-            decoration: ACPDecorations.acpInputDecorationMethod(
-                hintText: 'Nombre del producto', labelText: 'Nombre:'),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          TextFormField(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            initialValue: prodcutF.price.toString(),
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))
+            children: [
+              SizedBox(
+                height: 10,
+              ),
+              TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                initialValue: prodcutF.name,
+                onChanged: (value) => prodcutF.name = value,
+                validator: (value) {
+                  if (value == null || value.length < 1)
+                    return 'Campo obligatorio';
+                },
+                decoration: ACPDecorations.acpInputDecorationMethod(
+                    hintText: 'Nombre del producto', labelText: 'Nombre:'),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              TextFormField(
+                autovalidateMode: AutovalidateMode.onUserInteraction,
+                initialValue: prodcutF.price.toString(),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(
+                      RegExp(r'^(\d+)?\.?\d{0,2}'))
+                ],
+                onChanged: (value) {
+                  if (double.tryParse(value) == null) {
+                    prodcutF.price = 0;
+                  } else {
+                    prodcutF.price = double.parse(value);
+                  }
+                },
+                validator: (value) {},
+                keyboardType: TextInputType.number,
+                decoration: ACPDecorations.acpInputDecorationMethod(
+                    hintText: '\$0.0', labelText: 'Precio:'),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              SwitchListTile(
+                  contentPadding: EdgeInsets.all(0),
+                  title: Text('Disponible'),
+                  activeColor: Theme.of(context).accentColor,
+                  value: prodcutF.available,
+                  onChanged: productFormProvider.updateAvaible),
+              SizedBox(
+                height: 30,
+              ),
             ],
-            onChanged: (value) {
-              if (double.tryParse(value) == null) {
-                prodcutF.price = 0;
-              } else {
-                prodcutF.price = double.parse(value);
-              }
-            },
-            validator: (value) {},
-            keyboardType: TextInputType.number,
-            decoration: ACPDecorations.acpInputDecorationMethod(
-                hintText: '\$0.0', labelText: 'Precio:'),
-          ),
-          SizedBox(
-            height: 30,
-          ),
-          SwitchListTile(
-              contentPadding: EdgeInsets.all(0),
-              title: Text('Disponible'),
-              activeColor: Theme.of(context).accentColor,
-              value: prodcutF.available,
-              onChanged: productFormProvider.updateAvaible),
-          SizedBox(
-            height: 30,
-          ),
-        ],
-      )),
+          )),
     );
   }
 }
