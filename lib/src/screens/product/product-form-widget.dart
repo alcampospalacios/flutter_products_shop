@@ -13,18 +13,21 @@ class ProductFormImageWidget extends StatelessWidget {
     return Hero(
       tag: this.product.id,
       child: Container(
-        child: this.product.picture != null
-            ? FadeInImage(
-                placeholder: AssetImage('assets/no-image.png'),
-                image: NetworkImage('${product.picture}'),
-                fit: BoxFit.cover,
-              )
-            : Image(
-                image: AssetImage('assets/no-image.png'), fit: BoxFit.cover),
+        child: Opacity(
+          opacity: 0.8,
+          child: this.product.picture != null
+              ? FadeInImage(
+                  placeholder: AssetImage('assets/no-image.png'),
+                  image: NetworkImage('${product.picture}'),
+                  fit: BoxFit.cover,
+                )
+              : Image(
+                  image: AssetImage('assets/no-image.png'), fit: BoxFit.cover),
+        ),
         width: double.infinity,
         height: _screenSize.height * 0.4,
         decoration: BoxDecoration(
-            color: Colors.blue[300],
+            color: Colors.black,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(45), topRight: Radius.circular(45)),
             boxShadow: [

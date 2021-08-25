@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:products_app/src/core/providers/product-form-provider.dart';
 import 'package:products_app/src/core/providers/products-provider.dart';
 import 'package:products_app/src/core/utils/acp-decorations.dart';
 import 'package:products_app/src/models/products-model.dart';
@@ -14,10 +16,32 @@ class ProductFormScreen extends StatelessWidget {
     final _screenSize = MediaQuery.of(context).size;
 
     Product selectedPro = productProvider.selectedProduct;
-    print('selectedPro: ${selectedPro.picture}');
 
+    return ChangeNotifierProvider(
+      create: (_) =>
+          ProductFormProvider(productProvider.selectedProduct.copy()),
+      child: _ProductFormScreenBody(
+          selectedPro: selectedPro, screenSize: _screenSize),
+    );
+  }
+}
+
+class _ProductFormScreenBody extends StatelessWidget {
+  const _ProductFormScreenBody({
+    Key? key,
+    required this.selectedPro,
+    required Size screenSize,
+  })  : _screenSize = screenSize,
+        super(key: key);
+
+  final Product selectedPro;
+  final Size _screenSize;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       body: SingleChildScrollView(
+        // keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Column(children: [
           Stack(
             children: [
@@ -81,6 +105,8 @@ class _ProductFormReactive extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productFormProvider = Provider.of<ProductFormProvider>(context);
+    final prodcutF = productFormProvider.product;
     final _screenSize = MediaQuery.of(context).size;
 
     return Container(
@@ -98,6 +124,12 @@ class _ProductFormReactive extends StatelessWidget {
             height: 10,
           ),
           TextFormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            initialValue: prodcutF.name,
+            onChanged: (value) => prodcutF.name = value,
+            validator: (value) {
+              if (value == null || value.length < 1) return 'Campo obligatorio';
+            },
             decoration: ACPDecorations.acpInputDecorationMethod(
                 hintText: 'Nombre del producto', labelText: 'Nombre:'),
           ),
@@ -105,6 +137,19 @@ class _ProductFormReactive extends StatelessWidget {
             height: 30,
           ),
           TextFormField(
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            initialValue: prodcutF.price.toString(),
+            inputFormatters: [
+              FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))
+            ],
+            onChanged: (value) {
+              if (double.tryParse(value) == null) {
+                prodcutF.price = 0;
+              } else {
+                prodcutF.price = double.parse(value);
+              }
+            },
+            validator: (value) {},
             keyboardType: TextInputType.number,
             decoration: ACPDecorations.acpInputDecorationMethod(
                 hintText: '\$0.0', labelText: 'Precio:'),
@@ -116,8 +161,8 @@ class _ProductFormReactive extends StatelessWidget {
               contentPadding: EdgeInsets.all(0),
               title: Text('Disponible'),
               activeColor: Theme.of(context).accentColor,
-              value: true,
-              onChanged: (value) {}),
+              value: prodcutF.available,
+              onChanged: productFormProvider.updateAvaible),
           SizedBox(
             height: 30,
           ),
