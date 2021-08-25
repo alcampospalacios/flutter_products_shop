@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:products_app/src/core/providers/products-provider.dart';
 import 'package:products_app/src/core/utils/acp-decorations.dart';
+import 'package:products_app/src/models/products-model.dart';
 import 'package:products_app/src/screens/product/product-form-widget.dart';
+import 'package:provider/provider.dart';
 
 class ProductFormScreen extends StatelessWidget {
   const ProductFormScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductsProvider>(context);
     final _screenSize = MediaQuery.of(context).size;
+
+    Product selectedPro = productProvider.selectedProduct;
+    print('selectedPro: ${selectedPro.picture}');
 
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(children: [
           Stack(
             children: [
-              ProductFormImageWidget(),
+              ProductFormImageWidget(
+                product: selectedPro,
+              ),
               Positioned(
                   top: 50,
                   left: 20,

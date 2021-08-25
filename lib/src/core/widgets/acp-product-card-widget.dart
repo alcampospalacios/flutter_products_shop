@@ -166,21 +166,24 @@ class _BackgroundImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(25),
-      child: Container(
-        width: double.infinity,
-        height: 400,
-        child: this.product.picture != null
-            ? FadeInImage(
-                placeholder: AssetImage('assets/no-image.png'),
-                image: NetworkImage('${product.picture}'),
-                fit: BoxFit.cover,
-              )
-            : Image(
-                image: AssetImage('assets/no-image.png'),
-                fit: BoxFit.cover,
-              ),
+    return Hero(
+      tag: this.product.id,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(25),
+        child: Container(
+          width: double.infinity,
+          height: 400,
+          child: this.product.picture != null
+              ? FadeInImage(
+                  placeholder: AssetImage('assets/no-image.png'),
+                  image: NetworkImage('${product.picture}'),
+                  fit: BoxFit.cover,
+                )
+              : Image(
+                  image: AssetImage('assets/no-image.png'),
+                  fit: BoxFit.cover,
+                ),
+        ),
       ),
     );
   }

@@ -9,6 +9,7 @@ class ProductsProvider extends ChangeNotifier {
       'flutter-projects-72232-default-rtdb.asia-southeast1.firebasedatabase.app';
   final List<Product> products = [];
   bool isLoading = true;
+  late Product selectedProduct;
 
   ProductsProvider() {
     this.loadProducts();
