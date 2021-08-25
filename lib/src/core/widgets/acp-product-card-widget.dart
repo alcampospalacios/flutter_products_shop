@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:products_app/src/models/products-model.dart';
 
 class ACPProductCardWidget extends StatelessWidget {
-  const ACPProductCardWidget({Key? key}) : super(key: key);
+  final Product product;
+
+  const ACPProductCardWidget({Key? key, required this.product})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +25,16 @@ class ACPProductCardWidget extends StatelessWidget {
         child: Stack(
           alignment: AlignmentDirectional.bottomStart,
           children: [
-            _BackgroundImage(),
-            _ProductOverviewDetails(),
-            _PriceTag(),
-            // TODO: this would be conditionality
-            _NotAvaible()
+            _BackgroundImage(
+              product: product,
+            ),
+            _ProductOverviewDetails(
+              product: product,
+            ),
+            _PriceTag(
+              product: product,
+            ),
+            if (!product.available) _NotAvaible()
           ],
         ),
       ),
@@ -48,7 +57,7 @@ class _NotAvaible extends StatelessWidget {
             bottomRight: Radius.circular(30), topLeft: Radius.circular(25)),
         child: Container(
           width: 100,
-          height: 70,
+          height: 40,
           color: Colors.red[900],
           child: Center(
             child: FittedBox(
@@ -71,8 +80,11 @@ class _NotAvaible extends StatelessWidget {
 }
 
 class _PriceTag extends StatelessWidget {
+  final Product product;
+
   const _PriceTag({
     Key? key,
+    required this.product,
   }) : super(key: key);
 
   @override
@@ -85,7 +97,7 @@ class _PriceTag extends StatelessWidget {
             bottomLeft: Radius.circular(30), topRight: Radius.circular(25)),
         child: Container(
           width: 100,
-          height: 70,
+          height: 40,
           color: Theme.of(context).primaryColor,
           child: Center(
             child: FittedBox(
@@ -93,7 +105,7 @@ class _PriceTag extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Text(
-                  '\$2000000.5',
+                  '\$${product.price}',
                   style: TextStyle(color: Colors.white, fontSize: 16),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -108,8 +120,11 @@ class _PriceTag extends StatelessWidget {
 }
 
 class _ProductOverviewDetails extends StatelessWidget {
+  final Product product;
+
   const _ProductOverviewDetails({
     Key? key,
+    required this.product,
   }) : super(key: key);
 
   @override
@@ -129,7 +144,7 @@ class _ProductOverviewDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'King Killer Chronicles',
+                '${product.name}',
                 style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -137,15 +152,6 @@ class _ProductOverviewDetails extends StatelessWidget {
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),
-              Text(
-                'Disponibles ya !!',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                ),
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              )
             ],
           ),
         ),
@@ -155,7 +161,8 @@ class _ProductOverviewDetails extends StatelessWidget {
 }
 
 class _BackgroundImage extends StatelessWidget {
-  const _BackgroundImage({Key? key}) : super(key: key);
+  final Product product;
+  const _BackgroundImage({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -164,12 +171,16 @@ class _BackgroundImage extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 400,
-        child: FadeInImage(
-          placeholder: AssetImage('assets/no-image.png'),
-          image: NetworkImage(
-              'https://cdna.artstation.com/p/assets/images/images/002/074/730/medium/abbey-tex-johnson-abbeytexjohnson-kvothe.jpg?1456885828'),
-          fit: BoxFit.cover,
-        ),
+        child: this.product.picture != null
+            ? FadeInImage(
+                placeholder: AssetImage('assets/no-image.png'),
+                image: NetworkImage('${product.picture}'),
+                fit: BoxFit.cover,
+              )
+            : Image(
+                image: AssetImage('assets/no-image.png'),
+                fit: BoxFit.cover,
+              ),
       ),
     );
   }
