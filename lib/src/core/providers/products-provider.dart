@@ -45,7 +45,7 @@ class ProductsProvider extends ChangeNotifier {
 
     if (product.id == null) {
     } else {
-      this.updateProduct(product);
+      await this.updateProduct(product);
     }
 
     isSaving = false;
@@ -54,10 +54,12 @@ class ProductsProvider extends ChangeNotifier {
 
   Future<String> updateProduct(Product product) async {
     final url = Uri.https(_baseUrl, 'products/${product.id}.json');
-    final resp = await http.put(url, body: product.toJson());
+    await http.put(url, body: product.toJson());
 
-    final decodeData = resp.body;
-    print(decodeData);
+    final index =
+        this.products.indexWhere((element) => element.id == product.id);
+    this.products[index] = product;
+
     return product.id;
   }
 }

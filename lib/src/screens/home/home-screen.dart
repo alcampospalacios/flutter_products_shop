@@ -11,7 +11,6 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productsProvider = Provider.of<ProductsProvider>(context);
-    final List<Product> products = productsProvider.products;
 
     if (productsProvider.isLoading) return LoadingWidget();
 
@@ -21,14 +20,15 @@ class HomeScreen extends StatelessWidget {
         centerTitle: true,
       ),
       body: ListView.builder(
-          itemCount: products.length,
+          itemCount: productsProvider.products.length,
           itemBuilder: (BuildContext context, index) => GestureDetector(
               onTap: () {
-                productsProvider.selectedProduct = products[index];
+                productsProvider.selectedProduct =
+                    productsProvider.products[index];
                 Navigator.pushNamed(context, 'product-form');
               },
               child: ACPProductCardWidget(
-                product: products[index],
+                product: productsProvider.products[index],
               ))),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
