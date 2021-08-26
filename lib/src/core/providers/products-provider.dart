@@ -43,13 +43,26 @@ class ProductsProvider extends ChangeNotifier {
     isSaving = true;
     notifyListeners();
 
-    if (product.id == null) {
+    if (product.id == '') {
+      await this.createProduct(product);
     } else {
       await this.updateProduct(product);
     }
 
     isSaving = false;
     notifyListeners();
+  }
+
+  Future<String> createProduct(Product product) async {
+    final url = Uri.https(_baseUrl, 'products.json');
+    final resp = await http.post(url, body: product.toJson());
+
+    final decodeData = json.decode(resp.body);
+    product.id = decodeData['name'];
+
+    this.products.add(product);
+
+    return product.id;
   }
 
   Future<String> updateProduct(Product product) async {

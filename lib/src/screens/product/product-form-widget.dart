@@ -14,7 +14,7 @@ class ProductFormImageWidget extends StatelessWidget {
       tag: this.product.id,
       child: Container(
         child: Opacity(
-          opacity: 0.8,
+          opacity: 0.9,
           child: this.product.picture != null
               ? FadeInImage(
                   placeholder: AssetImage('assets/no-image.png'),
@@ -26,16 +26,12 @@ class ProductFormImageWidget extends StatelessWidget {
         ),
         width: double.infinity,
         height: _screenSize.height * 0.4,
-        decoration: BoxDecoration(
-            color: Colors.black,
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(45), topRight: Radius.circular(45)),
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 10,
-                  offset: Offset(0, 5))
-            ]),
+        decoration: BoxDecoration(color: Colors.black, boxShadow: [
+          BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: Offset(0, 5))
+        ]),
       ),
     );
   }
