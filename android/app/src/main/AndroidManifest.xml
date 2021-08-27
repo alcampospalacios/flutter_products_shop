@@ -1,5 +1,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.products_app">
+    <queries>
+          <intent>
+               <action android:name="android.media.action.IMAGE_CAPTURE" />
+          </intent>
+    </queries>
+
    <application
         android:label="products_app"
         android:icon="@mipmap/ic_launcher">
@@ -38,4 +44,7 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
 </manifest>

@@ -6,6 +6,7 @@ import 'package:products_app/src/core/utils/acp-decorations.dart';
 import 'package:products_app/src/models/products-model.dart';
 import 'package:products_app/src/screens/product/product-form-widget.dart';
 import 'package:provider/provider.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProductFormScreen extends StatelessWidget {
   const ProductFormScreen({Key? key}) : super(key: key);
@@ -72,7 +73,18 @@ class _ProductFormScreenBody extends StatelessWidget {
                       size: 40,
                       color: Colors.white,
                     ),
-                    onPressed: () {},
+                    onPressed: () async {
+                      // TODO: to use image on camera button
+                      final ImagePicker _picker = ImagePicker();
+                      final XFile? photo =
+                          await _picker.pickImage(source: ImageSource.camera);
+
+                      if (photo == null) {
+                        print('No image selected');
+                        return;
+                      }
+                      print('path image ${photo.path}');
+                    },
                   )),
               Positioned(
                   top: 320,
