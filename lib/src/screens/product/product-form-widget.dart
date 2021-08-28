@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:products_app/src/models/products-model.dart';
 
@@ -13,17 +15,7 @@ class ProductFormImageWidget extends StatelessWidget {
     return Hero(
       tag: this.product.id,
       child: Container(
-        child: Opacity(
-          opacity: 0.9,
-          child: this.product.picture != null
-              ? FadeInImage(
-                  placeholder: AssetImage('assets/no-image.png'),
-                  image: NetworkImage('${product.picture}'),
-                  fit: BoxFit.cover,
-                )
-              : Image(
-                  image: AssetImage('assets/no-image.png'), fit: BoxFit.cover),
-        ),
+        child: Opacity(opacity: 0.9, child: getImage(this.product.picture)),
         width: double.infinity,
         height: _screenSize.height * 0.4,
         decoration: BoxDecoration(color: Colors.black, boxShadow: [
@@ -33,6 +25,25 @@ class ProductFormImageWidget extends StatelessWidget {
               offset: Offset(0, 5))
         ]),
       ),
+    );
+  }
+
+  Widget getImage(String? picture) {
+    if (picture == null) {
+      return Image(image: AssetImage('assets/no-image.png'), fit: BoxFit.cover);
+    }
+
+    if (picture.startsWith('http')) {
+      return FadeInImage(
+        placeholder: AssetImage('assets/no-image.png'),
+        image: NetworkImage('${product.picture}'),
+        fit: BoxFit.cover,
+      );
+    }
+
+    return Image.file(
+      File(picture),
+      fit: BoxFit.cover,
     );
   }
 }

@@ -83,7 +83,7 @@ class _ProductFormScreenBody extends StatelessWidget {
                         print('No image selected');
                         return;
                       }
-                      print('path image ${photo.path}');
+                      productProvider.updateSelectedPicture(photo.path);
                     },
                   )),
               Positioned(
