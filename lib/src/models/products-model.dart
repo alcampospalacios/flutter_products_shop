@@ -39,6 +39,6 @@ class Product {
         "price": price,
       };
 
-  Product copy() =>
-      Product(available: available, name: name, price: price, id: id);
+  Product copy() => Product(
+      available: available, name: name, price: price, id: id, picture: picture);
 }

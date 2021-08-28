@@ -86,4 +86,32 @@ class ProductsProvider extends ChangeNotifier {
     this.pictureFile = File.fromUri(Uri(path: path));
     notifyListeners();
   }
+
+  Future<String?> uploadImage() async {
+    if (this.pictureFile == null) return null;
+
+    this.isSaving = true;
+    notifyListeners();
+
+    final url = Uri.parse(
+        'https://api.cloudinary.com/v1_1/dbcab4ll6/image/upload?upload_preset=zwrkselv');
+
+    final uploadRequest = http.MultipartRequest('POST', url);
+    final file =
+        await http.MultipartFile.fromPath('file', this.pictureFile!.path);
+
+    uploadRequest.files.add(file);
+
+    final streamResponse = await uploadRequest.send();
+    final resp = await http.Response.fromStream(streamResponse);
+
+    if (resp.statusCode != 200 && resp.statusCode != 201) {
+      print('Error');
+      return null;
+    }
+
+    this.pictureFile = null;
+    final decodeData = json.decode(resp.body);
+    return decodeData['secure_url'];
+  }
 }

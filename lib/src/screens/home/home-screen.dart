@@ -24,7 +24,7 @@ class HomeScreen extends StatelessWidget {
           itemBuilder: (BuildContext context, index) => GestureDetector(
               onTap: () {
                 productsProvider.selectedProduct =
-                    productsProvider.products[index];
+                    productsProvider.products[index].copy();
                 Navigator.pushNamed(context, 'product-form');
               },
               child: ACPProductCardWidget(

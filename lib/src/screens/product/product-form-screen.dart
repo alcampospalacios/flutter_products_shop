@@ -80,7 +80,6 @@ class _ProductFormScreenBody extends StatelessWidget {
                           await _picker.pickImage(source: ImageSource.camera);
 
                       if (photo == null) {
-                        print('No image selected');
                         return;
                       }
                       productProvider.updateSelectedPicture(photo.path);
@@ -109,12 +108,23 @@ class _ProductFormScreenBody extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.save_alt_outlined),
-        onPressed: () async {
-          if (!productForm.isValidForm()) return;
+        child: productProvider.isSaving
+            ? CircularProgressIndicator(
+                color: Colors.white,
+              )
+            : Icon(Icons.save),
+        onPressed: productProvider.isSaving
+            ? null
+            : () async {
+                if (!productForm.isValidForm()) return;
 
-          await productProvider.createOrEdit(productForm.product);
-        },
+                final String? pictureUrl = await productProvider.uploadImage();
+
+                if (pictureUrl != null)
+                  productForm.product.picture = pictureUrl;
+
+                await productProvider.createOrEdit(productForm.product);
+              },
       ),
     );
   }
