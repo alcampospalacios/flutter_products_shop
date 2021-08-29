@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:products_app/src/core/providers/login-form-provider.dart';
 import 'package:products_app/src/core/widgets/acp-widgets.dart';
-import 'package:products_app/src/screens/login/login-screen.widget.dart';
+import 'package:products_app/src/screens/signup/signup-screen.widget.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+class SignupScreen extends StatelessWidget {
+  const SignupScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: LoginBackgroundWidget(
+        body: SignupBackgroundWidget(
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -24,7 +24,7 @@ class LoginScreen extends StatelessWidget {
                   height: 10,
                 ),
                 Text(
-                  'Iniciar sesión',
+                  'Registrar usuario',
                   style: Theme.of(context).textTheme.headline4,
                 ),
                 SizedBox(
@@ -32,7 +32,7 @@ class LoginScreen extends StatelessWidget {
                 ),
                 ChangeNotifierProvider(
                   create: (_) => LoginFOrmProvider(),
-                  child: LoginForm(),
+                  child: SignupForm(),
                 )
               ],
             )),
@@ -41,15 +41,14 @@ class LoginScreen extends StatelessWidget {
             ),
             TextButton(
               child: Text(
-                'Crear una nueva cuenta',
+                'Iniciar sesion',
                 style: TextStyle(color: Colors.black54),
               ),
               style: ButtonStyle(
                   overlayColor:
                       MaterialStateProperty.all(Colors.indigo.withOpacity(0.1)),
                   shape: MaterialStateProperty.all(StadiumBorder())),
-              onPressed: () =>
-                  Navigator.pushReplacementNamed(context, 'signup'),
+              onPressed: () => Navigator.pushReplacementNamed(context, 'login'),
             ),
           ],
         ),

@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:products_app/src/core/providers/auth-provider.dart';
 import 'package:products_app/src/core/providers/login-form-provider.dart';
 import 'package:products_app/src/core/utils/acp-decorations.dart';
-import 'package:products_app/src/core/utils/acp-notifications.dart';
 import 'package:provider/provider.dart';
 
-class LoginBackgroundWidget extends StatelessWidget {
+class SignupBackgroundWidget extends StatelessWidget {
   final Widget child;
-  const LoginBackgroundWidget({Key? key, required this.child})
+  const SignupBackgroundWidget({Key? key, required this.child})
       : super(key: key);
 
   @override
@@ -207,8 +206,8 @@ class _Bubble extends StatelessWidget {
   }
 }
 
-class LoginForm extends StatelessWidget {
-  const LoginForm({Key? key}) : super(key: key);
+class SignupForm extends StatelessWidget {
+  const SignupForm({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -287,14 +286,15 @@ class LoginForm extends StatelessWidget {
                       loginForm.isLoading = true;
 
                       // TODO: validate succefuly loggin
-                      final String? errorMessage = await authProvider.signin(
+                      final String? errorMessage = await authProvider.signup(
                           loginForm.email, loginForm.password);
 
                       if (errorMessage == null) {
                         print('no error');
                         Navigator.pushReplacementNamed(context, 'home');
                       } else {
-                        ACPNotificationService.showSnackBar(errorMessage);
+                        // TODO: show error on screen
+                        print('error: $errorMessage');
                         loginForm.isLoading = false;
                       }
                     },
