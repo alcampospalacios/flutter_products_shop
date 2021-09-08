@@ -77,7 +77,7 @@ class _ProductFormScreenBody extends StatelessWidget {
                       // TODO: to use image on camera button
                       final ImagePicker _picker = ImagePicker();
                       final XFile? photo =
-                          await _picker.pickImage(source: ImageSource.camera);
+                          await _picker.pickImage(source: ImageSource.gallery);
 
                       if (photo == null) {
                         return;
