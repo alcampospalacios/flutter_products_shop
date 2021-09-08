@@ -3,7 +3,9 @@
 </h1>
 
 <h2 align="center">
-  <video src="./demo.m4v" height="400" autoplay></video>
+  <img src="./demo1.png" height="400" />
+  <img src="./demo2.png" height="400" />
+  <img src="./demo3.png" height="400" />
 </h2>
 
 <br />
@@ -18,7 +20,6 @@
 ## Resources
 
 - Firebase
--
 
 ## How to run
 
